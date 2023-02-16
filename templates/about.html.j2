@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    {% include "include/head.html" %}
+    {% include "include/head.html.j2" %}
     </head>
     <body>
         <!-- Navigation-->
-        {% include "include/navigation.html" %}
+        {% include "include/navigation.html.j2" %}
         <!-- Page Header-->
         <header class="masthead" style="background-image: url({{ url_for('static', filename='assets/img/about-bg.jpg') }})">
             <div class="container position-relative px-4 px-lg-5">

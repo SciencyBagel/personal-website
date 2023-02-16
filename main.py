@@ -9,9 +9,9 @@ posts = {}  # global variable to store posts
 def home():
     # get posts from json file
     global posts
-    json_file = open("data/posts.json", mode='r')
-    posts = json.load(json_file)
-    json_file.close()
+    with open("data/posts.json", mode='r') as json_file:
+        posts = json.load(json_file)
+    
     
     return flask.render_template('index.html.j2', posts=posts)
 
@@ -25,8 +25,8 @@ def contact():
 
 @app.route('/post/#<post_id>')
 def post(post_id):
-    
-    return flask.render_template('post.html.j2', post=posts[post_id])
+    post = posts[post_id]
+    return flask.render_template('post.html.j2', post=post)
 
 # driver
 if __name__ == '__main__':
