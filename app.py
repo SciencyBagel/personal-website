@@ -3,19 +3,20 @@ import json
 import smtplib, ssl
 
 from config import Email, Host
+import data_io
 
 # app setup
 app = flask.Flask(__name__)
 posts = {}  # global variable to store posts
 
+@app.before_first_request
+def initialize_posts():
+    global posts
+    posts = data_io.load_posts()
+
 # Routes
 @app.route('/')
 def home():
-    # get posts from json file
-    global posts
-    with open("data/posts.json", mode='r') as json_file:
-        posts = json.load(json_file)
-    
     
     return flask.render_template('index.html.j2', posts=posts)
 
@@ -26,9 +27,11 @@ def about():
 @app.route('/contact', methods=["POST", "GET"])
 def contact():
     
+    # if user is loading up the page
     if flask.request.method == "GET":
         return flask.render_template('contact.html.j2', msg_sent=False)
     
+    # if user submitted contact information
     elif flask.request.method == "POST":
         # used to process the data from the form located in /contact
         
@@ -42,8 +45,8 @@ def contact():
         # format message
         message = f"Subject: {subject}\n\nName: {sender_name}\nEmail: {sender_email}\nPhone: {sender_tel}\nMessage: {sender_input}"     
         
-        context = ssl.create_default_context()
         # send message
+        context = ssl.create_default_context()
         with smtplib.SMTP_SSL("smtp.gmail.com", Email.PORT, context=context) as server:
             server.login(Email.ID, Email.PASSWORD)
             server.sendmail(from_addr=sender_email, to_addrs=Email.ID, msg=message)
