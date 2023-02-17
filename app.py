@@ -3,19 +3,20 @@ import json
 import smtplib, ssl
 
 from config import Email, Host
+import data_io
 
 # app setup
 app = flask.Flask(__name__)
 posts = {}  # global variable to store posts
 
+@app.before_first_request
+def initialize_posts():
+    global posts
+    posts = data_io.load_posts()
+
 # Routes
 @app.route('/')
 def home():
-    # get posts from json file
-    global posts
-    with open("data/posts.json", mode='r') as json_file:
-        posts = json.load(json_file)
-    
     
     return flask.render_template('index.html.j2', posts=posts)
 
