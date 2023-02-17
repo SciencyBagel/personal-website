@@ -1,15 +1,10 @@
 import flask
 import json
 import smtplib, ssl
-import os
 
-# SMTP setup
-PORT = 465
-APP_EMAIL = os.environ["EMAIL"]
-APP_PASSWORD = os.environ["PASSWORD"]
+from config import Email, Host
 
-context = ssl.create_default_context()
-
+# app setup
 app = flask.Flask(__name__)
 posts = {}  # global variable to store posts
 
@@ -47,10 +42,11 @@ def contact():
         # format message
         message = f"Subject: {subject}\n\nName: {sender_name}\nEmail: {sender_email}\nPhone: {sender_tel}\nMessage: {sender_input}"     
         
+        context = ssl.create_default_context()
         # send message
-        with smtplib.SMTP_SSL("smtp.gmail.com", PORT, context=context) as server:
-            server.login(APP_EMAIL, APP_PASSWORD)
-            server.sendmail(from_addr=sender_email, to_addrs=APP_EMAIL, msg=message)
+        with smtplib.SMTP_SSL("smtp.gmail.com", Email.PORT, context=context) as server:
+            server.login(Email.ID, Email.PASSWORD)
+            server.sendmail(from_addr=sender_email, to_addrs=Email.ID, msg=message)
         
         return flask.render_template('contact.html.j2', msg_sent=True)
     else:
@@ -63,4 +59,4 @@ def post(post_id):
     
 # driver
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host=Host.HOST, port=Host.PORT)

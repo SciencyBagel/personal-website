@@ -4,3 +4,4 @@ DockerFile
 .idea
 .vscode
 .venv
+.dockerignore
