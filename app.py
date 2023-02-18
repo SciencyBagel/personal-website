@@ -18,18 +18,18 @@ def initialize_posts():
 @app.route('/')
 def home():
     
-    return flask.render_template('index.html', posts=posts)
+    return flask.render_template('index.j2', posts=posts)
 
 @app.route('/about')
 def about():
-    return flask.render_template('about.html')
+    return flask.render_template('about.j2')
 
 @app.route('/contact', methods=["POST", "GET"])
 def contact():
     
     # if user is loading up the page
     if flask.request.method == "GET":
-        return flask.render_template('contact.html', msg_sent=False)
+        return flask.render_template('contact.j2', msg_sent=False)
     
     # if user submitted contact information
     elif flask.request.method == "POST":
@@ -51,14 +51,14 @@ def contact():
             server.login(Email.ID, Email.PASSWORD)
             server.sendmail(from_addr=sender_email, to_addrs=Email.ID, msg=message)
         
-        return flask.render_template('contact.html', msg_sent=True)
+        return flask.render_template('contact.j2', msg_sent=True)
     else:
         return "error"
 
 @app.route('/post/#<post_id>')
 def post(post_id):
     post = posts[post_id]
-    return flask.render_template('post.html', post=post)
+    return flask.render_template('post.j2', post=post)
     
 # driver
 if __name__ == '__main__':
