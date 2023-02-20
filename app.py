@@ -2,19 +2,25 @@ import smtplib
 import ssl
 
 import flask
-from flask_sqlalchemy import SQLAlchemy
+import sqlalchemy
 
-import data_io
-from config import Email, Host
+from dataio import DataIO
+import models
+from config import Email, Host, Database
+
+# database setup
+engine = sqlalchemy.create_engine(Database.CONNECTION_STRING, echo=True)
+models.Base.metadata.create_all(engine)  # create tables if they don't exist
+dataio = DataIO(engine)  # create dataio object
 
 # app setup
 app = flask.Flask(__name__)
-posts = {}  # global variable to store posts
 
 
 # View handlers
 @app.route('/')
-def home():
+def index():
+    posts = dataio.get_posts()
     return flask.render_template('index.html', posts=posts)
 
 
@@ -56,12 +62,11 @@ def contact():
 
 @app.route('/post/#<post_id>')
 def post(post_id):
-    post = posts[post_id]
+    post = dataio.get_post(post_id)
     return flask.render_template('post.html', post=post)
 
 
 # driver
 if __name__ == '__main__':
-    global posts
-    posts = data_io.load_posts()
+    # global posts
     app.run(debug=True, host=Host.HOST, port=Host.PORT)
