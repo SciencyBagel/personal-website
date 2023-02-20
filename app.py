@@ -2,17 +2,13 @@ import smtplib
 import ssl
 
 import flask
-import sqlalchemy
 
 from blogdb.dbmanager import DBManager
-from blogdb import models
 import config
 from config import Email, Host
 
 # database setup
-engine = sqlalchemy.create_engine(config.CONNECTION_STRING, echo=True)
-models.Base.metadata.create_all(engine)  # create tables if they don't exist
-dataio = DBManager(engine)  # create dataio object
+db_manager = DBManager(config.CONNECTION_STRING)  # create dataio object to communicate with database
 
 # app setup
 app = flask.Flask(__name__)
@@ -21,7 +17,7 @@ app = flask.Flask(__name__)
 # View handlers
 @app.route('/')
 def index():
-    posts = dataio.get_posts()
+    posts = db_manager.get_posts()
     return flask.render_template('index.html', posts=posts)
 
 
@@ -63,7 +59,7 @@ def contact():
 
 @app.route('/post/#<post_id>')
 def post(post_id):
-    post = dataio.get_post(post_id)
+    post = db_manager.get_post(post_id)
     return flask.render_template('post.html', post=post)
 
 

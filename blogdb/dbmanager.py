@@ -1,12 +1,16 @@
 import sqlalchemy
 from sqlalchemy.orm import Session
-from sqlalchemy import Engine
-from blogdb.models import Post
+
+from blogdb.models import Post, Base
 
 
 class DBManager:
-    def __init__(self, engine: Engine):
-        self.engine = engine
+    def __init__(self, connection_string: str):
+        # Create engine
+        self.engine = sqlalchemy.create_engine(connection_string, echo=True)
+
+        # Create tables if they don't exist
+        Base.metadata.create_all(self.engine)
 
     def get_posts(self):
         with Session(self.engine) as session:
