@@ -1,4 +1,4 @@
-from sqlalchemy.orm import DeclarativeBase, mapped_column, relationship
+from sqlalchemy.orm import DeclarativeBase, mapped_column
 from sqlalchemy import Integer, String
 
 

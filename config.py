@@ -1,8 +1,7 @@
 import os
 
 
-class Database:
-    CONNECTION_STRING: str = os.environ["CONNECTION_STRING"]
+CONNECTION_STRING: str = os.environ["CONNECTION_STRING"]
 
 
 class Email:

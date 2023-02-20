@@ -4,14 +4,15 @@ import ssl
 import flask
 import sqlalchemy
 
-from dataio import DataIO
-import models
-from config import Email, Host, Database
+from blogdb.dbmanager import DBManager
+from blogdb import models
+import config
+from config import Email, Host
 
 # database setup
-engine = sqlalchemy.create_engine(Database.CONNECTION_STRING, echo=True)
+engine = sqlalchemy.create_engine(config.CONNECTION_STRING, echo=True)
 models.Base.metadata.create_all(engine)  # create tables if they don't exist
-dataio = DataIO(engine)  # create dataio object
+dataio = DBManager(engine)  # create dataio object
 
 # app setup
 app = flask.Flask(__name__)

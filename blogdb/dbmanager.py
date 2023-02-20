@@ -1,9 +1,10 @@
+import sqlalchemy
 from sqlalchemy.orm import Session
 from sqlalchemy import Engine
-from models import Post
+from blogdb.models import Post
 
 
-class DataIO:
+class DBManager:
     def __init__(self, engine: Engine):
         self.engine = engine
 
