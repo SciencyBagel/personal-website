@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<head>
 {% include "include/head.html" %}
+</head>
 
 <body>
+    <nav>
     {% include "include/navigation.html" %}
+    </nav>
 
 
-    {% block header %}
     <header class="masthead" style="background-image: url({{ url_for('static', filename='assets/img/bg-image.jpg') }})">
+    {% block header %}
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
@@ -20,14 +24,16 @@
                 </div>
             </div>
         </div>
-    </header>
     {% endblock %}
+    </header>
 
+    <main>
     {% block main %}{% endblock %}
+    </main>
 
-
-
+    <footer>
     {% include "include/footer.html" %}
+    </footer>
     <!-- Bootstrap core JS-->
     <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
     <!-- Core theme JS-->
