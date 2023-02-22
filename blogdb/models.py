@@ -13,3 +13,4 @@ class Post(Base):
     title = mapped_column('title', String(100), nullable=False)
     subtitle = mapped_column('subtitle', String(100), nullable=False)
     content = mapped_column('content', String(1000), nullable=False)
+    date = mapped_column('date', String(100), nullable=False)

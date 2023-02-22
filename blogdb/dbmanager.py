@@ -14,10 +14,12 @@ class DBManager:
 
     def get_posts(self):
         with Session(self.engine) as session:
-            posts = session.query(Post).all()
+            stmt = sqlalchemy.select(Post)
+            posts = session.scalars(stmt).all()
             return posts
 
     def get_post(self, post_id: int):
         with Session(self.engine) as session:
-            post = session.query(Post).filter(Post.id == post_id).first()
+            stmt = sqlalchemy.select(Post).where(Post.id == post_id)
+            post = session.scalar(stmt)
             return post

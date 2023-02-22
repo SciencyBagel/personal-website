@@ -1,9 +1,8 @@
 import smtplib
 import ssl
-
 import flask
 
-from blogdb.dbmanager import DBManager
+from blogdb import DBManager
 import config
 from config import Email, Host
 

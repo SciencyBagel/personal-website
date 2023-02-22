@@ -1,5 +1,8 @@
 {% extends "supers/base.html" %}
 
+{% block heading %}{{ post.title }}{% endblock %}
+{% block subheading %}{{ post.subtitle }}{% endblock %}
+
 {% block main %}
 <!-- Post Content-->
 <article class="mb-4">
