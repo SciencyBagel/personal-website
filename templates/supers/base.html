@@ -2,42 +2,40 @@
 <html lang="en">
 
 <head>
-{% include "include/head.html" %}
+    {% include "include/head.html" %}
 </head>
 
 <body>
-    <nav>
-    {% include "include/navigation.html" %}
-    </nav>
 
+{% include "include/navigation.html" %}
 
-    <header class="masthead" style="background-image: url({{ url_for('static', filename='assets/img/bg-image.jpg') }})">
+<header class="masthead" style="background-image: url({{ url_for('static', filename='assets/img/bg-image.jpg') }})">
     {% block header %}
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="site-heading">
                         <h1>{% block heading %}Jahir's Website{% endblock %}</h1>
-                        <span class="subheading">{% block subheading %}A website showing my blogs, projects, and more!{%
-                            endblock %}</span>
+                        <span class="subheading">{% block subheading %}A website showing my blogs, projects, and
+                            more!{% endblock %}</span>
                     </div>
                 </div>
             </div>
         </div>
     {% endblock %}
-    </header>
+</header>
 
-    <main>
+<main>
     {% block main %}{% endblock %}
-    </main>
+</main>
 
-    <footer>
+<footer>
     {% include "include/footer.html" %}
-    </footer>
-    <!-- Bootstrap core JS-->
-    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
-    <!-- Core theme JS-->
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+<!-- Core theme JS-->
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 
 </body>
 
