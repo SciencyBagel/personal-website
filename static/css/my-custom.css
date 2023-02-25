@@ -1,0 +1,8 @@
+:root {
+    --primary: #10398d;
+}
+
+.my-icon {
+    color: var(--primary);
+}
+
