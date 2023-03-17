@@ -1,7 +1,7 @@
 {% extends "supers/base.html" %}
 
 {% block main %}
-<form method="POST" action="{{ url_for('index') }}">
+<form class="container" method="POST" action="{{ url_for('index') }}">
     {{ form.csrf_token }}
     <p>
         {{ form.title.label }}<br>{{ form.title }}

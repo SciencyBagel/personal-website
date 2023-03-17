@@ -13,7 +13,7 @@ db = DBManager(config.CONNECTION_STRING)  # create dataio object to communicate 
 
 # app setup
 app = flask.Flask(__name__)
-ckeditor = CKEditor(app)
+ckeditor = CKEditor(app)  # needed for creating fancy text box
 app.config['SECRET_KEY'] = config.SECRET_KEY
 
 
