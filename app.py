@@ -1,22 +1,26 @@
 import smtplib
 import ssl
 import flask
+from flask_ckeditor import CKEditor
 
-from blogdb import DBManager
+from blogdb import DBManager, Post
 import config
 from config import Email, Host
+import myforms
 
 # database setup
-db_manager = DBManager(config.CONNECTION_STRING)  # create dataio object to communicate with database
+db = DBManager(config.CONNECTION_STRING)  # create dataio object to communicate with database
 
 # app setup
 app = flask.Flask(__name__)
+ckeditor = CKEditor(app)
+app.config['SECRET_KEY'] = config.SECRET_KEY
 
 
 # View handlers
 @app.route('/')
 def index():
-    posts = db_manager.get_posts()
+    posts = db.get_posts()
     return flask.render_template('index.html', posts=posts)
 
 
@@ -57,10 +61,51 @@ def contact():
 
 
 @app.route('/post/#<post_id>')
-def post(post_id):
-    post = db_manager.get_post(post_id)
+def view_post(post_id):
+    post = db.get_post(post_id)
     return flask.render_template('post.html', post=post)
 
+@app.route('/new-post', methods=["GET", "POST"])
+def new_post():
+    # TODO
+    form = myforms.PostForm()
+    
+    if flask.request.method == "GET":
+        return flask.render_template('new_post.html', form=form)
+    else:
+        return "temp"
+
+# API
+@app.route('/api/get_post', methods=["GET"])
+def api_get_post():
+    args = flask.request.args.to_dict()
+    
+    if flask.request.method == "GET":
+        post_id = int(args["id"])
+        
+        # get object from database
+        post = db.get_post(post_id)
+        
+        if not post:
+            return flask.jsonify(error="Not Found"), 404
+        
+        return flask.jsonify(result=post.__dict__), 200
+    else:
+        return flask.jsonify(error="Bad Request"), 400
+    
+@app.route('/api/add_post', methods=["POST"])
+def api_add_post():
+    args = flask.request.args.to_dict()
+    
+    if flask.request.method == "POST":
+        new_post = Post(**args)
+        db.add_post(new_post)
+        
+        return flask.jsonify(status="Success"), 201
+    else:
+        return flask.jsonify(error="Bad Request"), 400
+        
+    
 
 # driver
 if __name__ == '__main__':

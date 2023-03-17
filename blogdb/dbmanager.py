@@ -23,3 +23,16 @@ class DBManager:
             stmt = sqlalchemy.select(Post).where(Post.id == post_id)
             post = session.scalar(stmt)
             return post
+        
+    def delete_post(self, post_id: int) -> None:
+        with Session(self.engine) as session:
+            stmt = sqlalchemy.select(Post).where(Post.id == post_id)
+            post = session.scalar(stmt)
+            session.delete(post)
+            session.commit()
+            
+    def add_post(self, post: Post):
+        with Session(self.engine) as session:
+            session.add(post)
+            session.commit()
+            

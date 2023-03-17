@@ -4,6 +4,7 @@ from sqlalchemy import Integer, String, Text
 
 class Base(DeclarativeBase):
     pass
+    
 
 
 class Post(Base):

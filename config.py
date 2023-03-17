@@ -2,6 +2,7 @@ import os
 
 
 CONNECTION_STRING: str = os.environ["CONNECTION_STRING"]
+SECRET_KEY: str = os.environ["SECRET_KEY"]
 
 
 class Email:

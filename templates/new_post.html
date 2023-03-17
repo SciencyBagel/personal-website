@@ -1,0 +1,23 @@
+{% extends "supers/base.html" %}
+
+{% block main %}
+<form method="POST" action="{{ url_for('index') }}">
+    {{ form.csrf_token }}
+    <p>
+        {{ form.title.label }}<br>{{ form.title }}
+    </p>
+    <p>
+        {{ form.subtitle.label }}<br>{{ form.subtitle }}
+    </p>
+    <p>
+        {{ form.img_url.label }}<br>{{ form.img_url }}
+    </p>
+    <p>
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='body') }}
+        {{ form.body.label }}<br>{{ form.body }}
+    </p>
+    
+    {{ form.submit }}
+</form>
+{% endblock %}
