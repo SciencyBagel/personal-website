@@ -1,23 +1,35 @@
 {% extends "supers/base.html" %}
 
+{% block heading %}New Post{% endblock %}
+{% block subheading %}You will make a great post!{% endblock %}
+
 {% block main %}
-<form class="container" method="POST" action="{{ url_for('index') }}">
+<form class="container" method="POST" action="{{ url_for('new_post') }}">
     {{ form.csrf_token }}
-    <p>
-        {{ form.title.label }}<br>{{ form.title }}
-    </p>
-    <p>
-        {{ form.subtitle.label }}<br>{{ form.subtitle }}
-    </p>
-    <p>
-        {{ form.img_url.label }}<br>{{ form.img_url }}
-    </p>
-    <p>
-        {{ ckeditor.load() }}
-        {{ ckeditor.config(name='body') }}
-        {{ form.body.label }}<br>{{ form.body }}
-    </p>
+
+    {% for field in form %}
+        {% if field.label.text == 'CSRF Token' or field.label.text == 'Submit' %}
+
+        {% else %}
+            <div class="mb-3">
+                {{ field.label }}
+
+                {% if not field.label.text == 'Blog Content'%}
+                   {{ field(class_="form-control") }}
+                {% else %}
+                    {{ form.body }}
+                    {% for error in form.body.errors %}
+                        <span style="color:red">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
     
-    {{ form.submit }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+    
+    {{ ckeditor.load() }}
+    {{ ckeditor.config(name='body') }}
+
 </form>
 {% endblock %}

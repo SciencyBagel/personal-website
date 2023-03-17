@@ -1,7 +1,9 @@
 import smtplib
 import ssl
 import flask
+from flask import url_for
 from flask_ckeditor import CKEditor
+import datetime as dt
 
 from blogdb import DBManager, Post
 import config
@@ -61,19 +63,29 @@ def contact():
 
 
 @app.route('/post/#<post_id>')
-def view_post(post_id):
+def post(post_id):
     post = db.get_post(post_id)
     return flask.render_template('post.html', post=post)
 
 @app.route('/new-post', methods=["GET", "POST"])
 def new_post():
-    # TODO
     form = myforms.PostForm()
     
-    if flask.request.method == "GET":
-        return flask.render_template('new_post.html', form=form)
-    else:
-        return "temp"
+    if form.validate_on_submit():
+        now = dt.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+        post = Post(
+            title=form.title.data,
+            date=now,
+            body=form.body.data,
+            author=form.author.data,
+            img_url=form.img_url.data,
+            subtitle=form.subtitle.data
+        )
+        db.add_post(post)
+        return flask.redirect(url_for("index"))
+    
+    return flask.render_template('new_post.html', form=form)
+
 
 # API
 @app.route('/api/get_post', methods=["GET"])
