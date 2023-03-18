@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from flask_ckeditor import CKEditorField  # used for text area
+from flask_ckeditor import CKEditorField  # used for fancy text area
 from wtforms import StringField, SubmitField, URLField
 from wtforms.validators import DataRequired, URL
 
