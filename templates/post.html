@@ -1,5 +1,5 @@
 {% extends "supers/base.html" %}
-
+{% block image %}url({{ post.img_url }}){% endblock %}
 {% block heading %}{{ post.title }}{% endblock %}
 {% block subheading %}{{ post.subtitle }}{% endblock %}
 
